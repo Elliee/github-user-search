@@ -1,5 +1,5 @@
 .main {
-  width: 700px;
+  width: 1200px;
   margin: 0 auto;
 }
 .header {
@@ -90,3 +90,51 @@ input[type="input"]:focus {
   background-color: rgb(87, 53, 255);
 }
 
+
+
+@media (max-width: 850px){
+  .main {
+    width: 600px;
+    margin: 0 auto;
+  }
+  .card-container {
+    width: 500px;
+    margin: 0 auto;
+  }
+
+  .user-card {
+    width: 400px;
+  }
+
+}
+
+
+@media (max-width: 600px) {
+  .main {
+    width: 400px;
+    margin: 0 auto;
+  }
+  .card-container {
+    width: 400px;
+    margin: 0 auto;
+  }
+    .user-card {
+    width: 300px;
+  }
+
+  .card-header {
+    font-size: 18px;
+  }
+  .user-card img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-left: 12px;
+  }
+  .user-link{
+    padding: 4px 8px 4px 8px;
+    font-size: 14px;
+ 
+  
+  }
+}

@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, { useState, useRef } from 'react';
 import './App.css';
 import { User } from './model';
 
@@ -7,7 +7,7 @@ const App: React.FC = () => {
   const API_URL = "https://api.github.com";
 
   const [query, setQuery] = useState<string>('');
-  const [searchResults, setSearchResults] =  useState<User[]>([]);
+  const [searchResults, setSearchResults] = useState<User[]>();
 
   const fetchUserData = async (query: string) => {
     try {
@@ -25,7 +25,7 @@ const App: React.FC = () => {
 
   async function onSearchSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if(query.trim() === ''){
+    if (query.trim() === '') {
       alert('please enter a search query!')
       return;
     }
@@ -34,36 +34,43 @@ const App: React.FC = () => {
     setQuery("")
   }
   const inputRef = useRef<HTMLInputElement>(null);
-console.log(searchResults)
+
+  let userData;
+  if (searchResults && searchResults.length > 0) {
+    userData = searchResults.map((result) => {
+      return <div className="user-card" key={result.id}>
+        <div className="card-header">
+          <h4>{result.login}</h4>
+          <img alt="Github profile" src={result.avatar_url} />
+        </div>
+        <a href={result.html_url} target="_blank" rel="noopener noreferrer" className="user-link">Go to profile</a>
+      </div>
+    })
+  }
+  if (searchResults !== undefined && searchResults.length < 1) {
+    userData = <p>No results found..</p>
+  }
   return (
     <div className="App">
       <div className="main">
-      <h3 className="header">Github User Search</h3>
-      <form className="search-form">
-        <input className="search-input"
-        required={true}
-        ref={inputRef}
-        value={query}
-        type="input"
-        placeholder="Enter username or email.."
-        onChange={onSearchChange}
-        />
-        <button onClick={onSearchSubmit} className="search-btn">Search</button>
-      </form>
-      <>
-        <h3 className="results-header">Results</h3>
-        <div className="card-container">
-        {searchResults && searchResults.map((result) => {
-          return <div className="user-card" key={result.id}>
-            <div className="card-header">
-              <h4>{result.login}</h4>
-              <img alt="Github profile" src={result.avatar_url}/>
-            </div>
-            <a href={result.html_url} target="_blank" rel="noopener noreferrer" className="user-link">Go to profile</a>
+        <h3 className="header">Github User Search</h3>
+        <form className="search-form">
+          <input className="search-input"
+            required={true}
+            ref={inputRef}
+            value={query}
+            type="input"
+            placeholder="Enter username or email.."
+            onChange={onSearchChange}
+          />
+          <button onClick={onSearchSubmit} className="search-btn">Search</button>
+        </form>
+        <>
+          <h3 className="results-header">Results</h3>
+          <div className="card-container">
+            {userData}
           </div>
-        })}
-        </div>
-      </>
+        </>
       </div>
     </div>
   );
